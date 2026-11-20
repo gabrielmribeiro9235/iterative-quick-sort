@@ -77,6 +77,10 @@ int top(t_stack *stack, int *start_value, int *end_value) {
     return 1;
 }
 
+int is_empty(t_stack *stack) {
+    return stack == NULL || stack->top_index == -1;
+}
+
 void destroy(t_stack *stack) {
     if (stack == NULL) {
         return;
@@ -86,37 +90,6 @@ void destroy(t_stack *stack) {
     free(stack);
 }
 
-void clear(t_stack *stack) {
-    if (stack == NULL) {
-        return;
-    }
-
-    stack->top_index = -1;
-}
-
-int is_empty(t_stack *stack) {
-    return stack == NULL || stack->top_index == -1;
-}
-
-int is_full(t_stack *stack) {
+static int is_full(t_stack *stack) {
     return stack == NULL || stack->top_index + 1 == stack->max;
-}
-
-int size(t_stack *stack) {
-    return stack == NULL ? 0 : stack->top_index + 1;
-}
-
-void print(t_stack *stack) {
-    if (is_empty(stack)) {
-        printf("The stack is empty\n");
-        return;
-    }
-
-    for (int i = stack->top_index; i >= 0; i--) {
-        if (i == stack->top_index) {
-            printf("%d <- top\n", stack->items[i]);
-        } else {
-            printf("%d\n", stack->items[i]);
-        }
-    }
 }
