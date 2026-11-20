@@ -1,8 +1,45 @@
 #include<stdio.h>
 #include"./stack/stack.h"
 
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
 void iterative_quick_sort(int* array, int size) {
-    return;
+    if (array == NULL || size <= 1) return;
+
+    t_stack *stack = create_stack();
+    push(stack, 0, size - 1);
+
+    while (!is_empty(stack)) {
+        int start, end;
+        pop(stack, &start, &end);
+
+        if (start >= end) continue;
+
+        int swap_index = start;
+
+        for (int i = start; i < end; i++) {
+            if (array[i] < array[end]) {
+                swap(&array[i], &array[swap_index]);
+                swap_index++;
+            }
+        }
+
+        swap(&array[end], &array[swap_index]);
+
+        if (swap_index - 1 - start > end - swap_index + 1) {
+            push(stack, start, swap_index - 1);
+            push(stack, swap_index + 1, end);
+        } else {
+            push(stack, swap_index + 1, end);
+            push(stack, start, swap_index - 1);
+        }
+    }
+
+    destroy(stack);
 }
 
 void print_array(int *array, int size) {
@@ -67,6 +104,8 @@ int main() {
     int array7[] = {10};
     int expected7[] = {10};
     unit_test(array7, expected7, 1);
+
+    printf("End of the program\n");
 
     return 0;
 }
