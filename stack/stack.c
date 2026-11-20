@@ -1,26 +1,23 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include"stack.h"
+#define INITIAL_SIZE 10
 
-t_stack* create_stack(int max) {
-    if (max <= 0) {
-        return NULL;
-    }
-
+t_stack* create_stack() {
     t_stack *stack = malloc(sizeof(t_stack));
 
     if (stack == NULL) {
         return NULL;
     }
 
-    stack->items = malloc(sizeof(int) * max);
+    stack->items = malloc(sizeof(int) * INITIAL_SIZE);
 
     if (stack->items == NULL) {
         free(stack);
         return NULL;
     }
 
-    stack->max = max;
+    stack->max = INITIAL_SIZE;
     stack->top_index = -1;
 
     return stack;
@@ -39,7 +36,7 @@ static int increase_array_size(t_stack *stack) {
     return 1;
 }
 
-int push(t_stack *stack, int elem) {
+int push(t_stack *stack, int start, int end) {
     if (stack == NULL) {
         return 0;
     }
@@ -48,27 +45,35 @@ int push(t_stack *stack, int elem) {
         return 0;
     }
     
+    t_item item = { .start = start, .end = end};
+
     stack->top_index++;
-    stack->items[stack->top_index] = elem;
+    stack->items[stack->top_index] = item;
 
     return 1;
 }
 
-int pop(t_stack *stack, int *value) {
-    if (is_empty(stack) || value == NULL) {
+int pop(t_stack *stack, int *start_value, int *end_value) {
+    if (is_empty(stack) || start_value == NULL || end_value == NULL) {
         return 0;
     }
 
-    *value = stack->items[stack->top_index--];
+    *start_value = stack->items[stack->top_index].start;
+    *end_value = stack->items[stack->top_index].end;
+
+    stack->top_index--;
+
     return 1;
 }
 
-int top(t_stack *stack, int *value) {
-    if (is_empty(stack) || value == NULL) {
+int top(t_stack *stack, int *start_value, int *end_value) {
+    if (is_empty(stack) || start_value == NULL || end_value == NULL) {
         return 0;
     }
 
-    *value = stack->items[stack->top_index];
+    *start_value = stack->items[stack->top_index].start;
+    *end_value = stack->items[stack->top_index].end;
+
     return 1;
 }
 
