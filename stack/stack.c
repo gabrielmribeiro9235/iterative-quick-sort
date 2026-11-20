@@ -9,7 +9,7 @@ static int is_full(t_stack *stack) {
 
 static int increase_array_size(t_stack *stack) {
     int new_max = stack->max * 2;
-    int *new = realloc(stack->items, sizeof(int) * new_max);
+    t_item *new = realloc(stack->items, sizeof(t_item) * new_max);
 
     if (new == NULL) {
         return 0;
