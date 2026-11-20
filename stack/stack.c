@@ -27,7 +27,7 @@ t_stack* create_stack() {
         return NULL;
     }
 
-    stack->items = malloc(sizeof(int) * INITIAL_SIZE);
+    stack->items = malloc(sizeof(t_item) * INITIAL_SIZE);
 
     if (stack->items == NULL) {
         free(stack);
