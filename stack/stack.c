@@ -3,6 +3,23 @@
 #include"stack.h"
 #define INITIAL_SIZE 10
 
+static int is_full(t_stack *stack) {
+    return stack == NULL || stack->top_index + 1 == stack->max;
+}
+
+static int increase_array_size(t_stack *stack) {
+    int new_max = stack->max * 2;
+    int *new = realloc(stack->items, sizeof(int) * new_max);
+
+    if (new == NULL) {
+        return 0;
+    }
+
+    stack->items = new;
+    stack->max = new_max;
+    return 1;
+}
+
 t_stack* create_stack() {
     t_stack *stack = malloc(sizeof(t_stack));
 
@@ -21,19 +38,6 @@ t_stack* create_stack() {
     stack->top_index = -1;
 
     return stack;
-}
-
-static int increase_array_size(t_stack *stack) {
-    int new_max = stack->max * 2;
-    int *new = realloc(stack->items, sizeof(int) * new_max);
-
-    if (new == NULL) {
-        return 0;
-    }
-
-    stack->items = new;
-    stack->max = new_max;
-    return 1;
 }
 
 int push(t_stack *stack, int start, int end) {
@@ -88,8 +92,4 @@ void destroy(t_stack *stack) {
 
     free(stack->items);
     free(stack);
-}
-
-static int is_full(t_stack *stack) {
-    return stack == NULL || stack->top_index + 1 == stack->max;
 }
