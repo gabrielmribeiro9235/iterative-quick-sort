@@ -61,7 +61,7 @@ void unit_test(int *array, int *expected, int size) {
 
     for (int i = 0; i < size; i++) {
         if (array[i] != expected[i]) {
-            printf(": failed\n");
+            printf(": failed!\n");
             printf("\tExpected: ");
             print_array(expected, size);
             printf("\n\tReceived: ");
@@ -71,7 +71,9 @@ void unit_test(int *array, int *expected, int size) {
         }
     }
 
-    printf(": passed\n\n");
+    printf(": passed!\n\tResult: ");
+    print_array(array, size);
+    printf("\n\n");
 }
 
 int main() {
