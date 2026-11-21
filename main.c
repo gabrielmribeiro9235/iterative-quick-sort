@@ -36,7 +36,10 @@ void iterative_quick_sort(int* array, int size) {
 
         int pivot = partition(array, start, end);
 
-        if (pivot - 1 - start > end - pivot + 1) {
+        int left_size = pivot - start;
+        int right_size = end - pivot;
+
+        if (left_size > right_size) {
             push(stack, start, pivot - 1);
             push(stack, pivot + 1, end);
         } else {
