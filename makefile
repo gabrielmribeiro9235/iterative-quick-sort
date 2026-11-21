@@ -1,10 +1,14 @@
 CC = gcc
 CFLAGS = -Wall -Wextra
 
-all = my_program
+.PHONY: all clean
 
-my_program: main.o stack.o
-	  $(CC) $(CFLAGS) -o my_program main.o stack.o
+.INTERMEDIATE: main.o stack.o
+
+all: main
+
+main: main.o stack.o
+	  $(CC) $(CFLAGS) -o main main.o stack.o
 
 main.o: main.c ./stack/stack.h
 	  $(CC) $(CFLAGS) -c -o main.o main.c
@@ -13,4 +17,4 @@ stack.o: ./stack/stack.c ./stack/stack.h
 	  $(CC) $(CFLAGS) -c -o stack.o ./stack/stack.c
 
 clean:
-	  rm -f my_program main.o stack.o
+	  rm -f main main.o stack.o
