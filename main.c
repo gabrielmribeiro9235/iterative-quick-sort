@@ -7,6 +7,21 @@ void swap(int *a, int *b) {
     *b = temp;
 }
 
+int partition(int *array, int start, int end) {
+    int swap_index = start;
+
+    for (int i = start; i < end; i++) {
+        if (array[i] < array[end]) {
+            swap(&array[i], &array[swap_index]);
+            swap_index++;
+        }
+    }
+
+    swap(&array[end], &array[swap_index]);
+
+    return swap_index;
+}
+
 void iterative_quick_sort(int* array, int size) {
     if (array == NULL || size <= 1) return;
 
@@ -19,23 +34,14 @@ void iterative_quick_sort(int* array, int size) {
 
         if (start >= end) continue;
 
-        int swap_index = start;
+        int pivot = partition(array, start, end);
 
-        for (int i = start; i < end; i++) {
-            if (array[i] < array[end]) {
-                swap(&array[i], &array[swap_index]);
-                swap_index++;
-            }
-        }
-
-        swap(&array[end], &array[swap_index]);
-
-        if (swap_index - 1 - start > end - swap_index + 1) {
-            push(stack, start, swap_index - 1);
-            push(stack, swap_index + 1, end);
+        if (pivot - 1 - start > end - pivot + 1) {
+            push(stack, start, pivot - 1);
+            push(stack, pivot + 1, end);
         } else {
-            push(stack, swap_index + 1, end);
-            push(stack, start, swap_index - 1);
+            push(stack, pivot + 1, end);
+            push(stack, start, pivot - 1);
         }
     }
 
